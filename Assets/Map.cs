@@ -14,17 +14,32 @@ namespace MapGenerator
 
         public int size;
 
+        [SerializeField]
+        private AlgorithmBase[] _algorithms;
 
         // Start is called before the first frame update
         void Start()
         {
             Array values = Enum.GetValues(typeof(TerrainTileType));
-            var generator = new RandomDataGenerator();
-            RenderTileMap(generator.Gen(size).Select(x=>
+            var generator = new CellAutoGeneration();
+            //RenderTileMap(generator.Gen(size).Select(x=>
+            //{
+            //    int index = (int)(x *0.01 * (values.Length-1));
+            //    return (TerrainTileType)values.GetValue(index);
+            //}).ToArray());
+
+            RenderTileMap(generator.Gen(size));
+        }
+
+        private void RenderTileMap(Dictionary<(int x, int y), int> dictionary)
+        {
+            Array values = Enum.GetValues(typeof(TerrainTileType));
+            foreach (var elem in dictionary)
             {
-                int index = (int)(x *0.01 * values.Length);
-                return (TerrainTileType)values.GetValue(index);
-            }).ToArray());
+                
+                int index = (int)(elem.Value * 0.01 * (values.Length - 1));
+                terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile((TerrainTileType)values.GetValue(index)));
+            }
         }
 
         private void RenderTileMap(TerrainTileType[] terrains)
