@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MathNet.Numerics.Distributions;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace MapGenerator
 {
     public class CellAutoGeneration 
     {
+        MathNet.Numerics.Distributions.Normal normalDist = new Normal(0, 5);
+
         public Dictionary<(int x, int y), int> Gen(int size)
         {
             this.size = size;
@@ -30,7 +33,10 @@ namespace MapGenerator
                 var nearby = emptyNearbys.First();
                 var cellNearbys = GetCellNearbys(nearby);
 
-                var value = cellNearbys.Values.Sum()/cellNearbys.Count() + UnityEngine.Random.Range(-50, 50);
+                
+                double randomGaussianValue = normalDist.Sample();
+
+                var value = (int)(cellNearbys.Values.Sum()/cellNearbys.Count() + randomGaussianValue);
                 value = Mathf.Min(value, 100);
                 value = Mathf.Max(value, 0);
                 activeCell.Add(nearby, value);
