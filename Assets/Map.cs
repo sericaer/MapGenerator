@@ -21,7 +21,15 @@ namespace MapGenerator
         void Start()
         {
             Array values = Enum.GetValues(typeof(TerrainTileType));
+
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             var generator = new CellAutoGeneration();
+            stopwatch.Stop();
+            Debug.Log("Time taken: " + (stopwatch.Elapsed));
+            stopwatch.Reset();
+
+            
             //RenderTileMap(generator.Gen(size).Select(x=>
             //{
             //    int index = (int)(x *0.01 * (values.Length-1));
