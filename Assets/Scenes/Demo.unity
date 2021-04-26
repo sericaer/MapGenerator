@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 1850261334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 684970938}
   m_Father: {fileID: 0}
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainMap: {fileID: 2137084122}
   tileSets: {fileID: 1850261337}
-  size: 100
+  size: 200
   _algorithms:
   - {fileID: 0}
 --- !u!114 &1850261337
@@ -314,19 +314,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileTypes:
   - terrainType: 0
-    Color: {r: 0, g: 0.2391901, b: 1, a: 0}
+    Color: {r: 0.25467247, g: 0.46693784, b: 0.9150943, a: 0}
   - terrainType: 1
-    Color: {r: 0, g: 0.5890684, b: 1, a: 0}
+    Color: {r: 0.75065863, g: 0.9339623, b: 0.2863564, a: 0}
   - terrainType: 2
-    Color: {r: 0.8396226, g: 0.83412546, b: 0.1544589, a: 0}
+    Color: {r: 0.9528302, g: 0.6183292, b: 0, a: 0}
   - terrainType: 3
-    Color: {r: 0.26777264, g: 0.7830189, b: 0.15881987, a: 0}
-  - terrainType: 4
-    Color: {r: 0.4339623, g: 0.18970704, b: 0.116678536, a: 0}
-  - terrainType: 5
-    Color: {r: 0.33962262, g: 0.33161265, b: 0.33161265, a: 0}
-  - terrainType: 6
-    Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 0}
+    Color: {r: 0.6916995, g: 0, b: 1, a: 0}
 --- !u!1 &2137084121
 GameObject:
   m_ObjectHideFlags: 0

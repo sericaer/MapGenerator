@@ -24,7 +24,7 @@ namespace MapGenerator
 
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
-            var generator = new CellAutoGeneration();
+            var generator = new NewCellAutoGeneration();
             stopwatch.Stop();
             Debug.Log("Time taken: " + (stopwatch.Elapsed));
             stopwatch.Reset();
@@ -36,7 +36,16 @@ namespace MapGenerator
             //    return (TerrainTileType)values.GetValue(index);
             //}).ToArray());
 
-            RenderTileMap(generator.Gen(size));
+            RenderTileMap(generator.Gen(size, 50, 50, 100));
+        }
+
+        private void RenderTileMap(Dictionary<(int x, int y), TerrainTileType> dictionary)
+        {
+            Array values = Enum.GetValues(typeof(TerrainTileType));
+            foreach (var elem in dictionary)
+            {
+                terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(elem.Value));
+            }
         }
 
         private void RenderTileMap(Dictionary<(int x, int y), int> dictionary)

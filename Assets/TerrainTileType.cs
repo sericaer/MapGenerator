@@ -8,12 +8,9 @@ namespace MapGenerator
 {
     public enum TerrainTileType
     {
-        DeepWater,
-        UndeepWater,
-        Beach,
-        Grass,
-        Dirt,
+        water,
+        plain,
+        hill,
         Mountain,
-        Snow
     }
 }
