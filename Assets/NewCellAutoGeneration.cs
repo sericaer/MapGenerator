@@ -73,11 +73,11 @@ namespace MapGenerator
 
             if (baseType == TerrainTileType.plain)
             {
-                if(value < warerfactor / 10)
+                if(value < warerfactor / 5)
                 {
                     return TerrainTileType.water;
                 }
-                else if(value < warerfactor /10 + hillfactor / 2)
+                else if(value < warerfactor /5 + hillfactor / 2)
                 {
                     return TerrainTileType.hill;
                 }
@@ -88,7 +88,7 @@ namespace MapGenerator
             }
             else if (baseType == TerrainTileType.hill)
             {
-                if (value < Math.Sqrt(warerfactor)*100)
+                if (value < 700)
                 {
                     return TerrainTileType.hill;
                 }
@@ -99,7 +99,7 @@ namespace MapGenerator
             }
             else if (baseType == TerrainTileType.water)
             {
-                if (value < Math.Sqrt(warerfactor)*100)
+                if (value < 700)
                 {
                     return TerrainTileType.water;
                 }
