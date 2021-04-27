@@ -100,7 +100,13 @@ namespace MapGenerator
             var generator = new HeightMapGenerator();
 
 
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             dict = generator.Gen(size, seed);
+            stopwatch.Stop();
+            Debug.Log("Time taken: " + (stopwatch.Elapsed));
+            stopwatch.Reset();
+           
 
 
             RenderTileMap();

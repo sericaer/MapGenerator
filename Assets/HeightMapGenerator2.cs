@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 namespace MapGenerator
 {
-    internal class HeightMapGenerator
+    internal class HeightMapGenerator2
     {
         MathNet.Numerics.Distributions.Normal normalDist = new Normal(0, 10);
 
-        public HeightMapGenerator()
+        public HeightMapGenerator2()
         {
         }
 
@@ -28,36 +29,35 @@ namespace MapGenerator
 
             UnityEngine.Random.InitState(BitConverter.ToInt32(hashBytes, 0));
 
-            activeCell[(size/2, size/2)] = 50;
-
-            while(stableCell.Count() < size * size)
+            for(int y=0; y<size; y++)
             {
-                var currCell = activeCell.First();
-                var emptyNearbys = GetEmptyNearbys(currCell.Key);
-                if (emptyNearbys.Count() == 0)
+                for (int x = 0; x < size; x++)
                 {
-                    stableCell.Add(currCell.Key, currCell.Value);
-                    activeCell.Remove(currCell.Key);
-                    continue;
+                    stableCell.Add((x, y), 100);
                 }
-
-                var nearby = emptyNearbys.ElementAt(UnityEngine.Random.Range(0, emptyNearbys.Count()));
-                var cellNearbys = GetCellNearbys(nearby);
-
-                var value = CalcNextValue(cellNearbys.Values);
-                value = Math.Min(100, value);
-                value = Math.Max(0, value);
-
-                var abs = Math.Abs(value - 50)/2;
-                if(UnityEngine.Random.Range(0, abs) == 0)
-                {
-                    value = 50;
-                }
-
-                activeCell.Add(nearby, value);
             }
 
+            for(int i=0; i<100; i++)
+            {
+                Strike(1);
+            }
+            
             return stableCell;
+        }
+
+        private void Strike(int percent)
+        {
+            var selectList = new List<(int, int)>();
+            var needCount = size * size * percent / 100;
+            for(int i=0; i< needCount; i++)
+            {
+                selectList.Add((UnityEngine.Random.Range(0, size * size), UnityEngine.Random.Range(0, size * size)));
+            }
+
+            foreach(var select in selectList)
+            {
+                stableCell[select]--;
+            }
         }
 
         private int CalcNextValue(IEnumerable<int> values)
