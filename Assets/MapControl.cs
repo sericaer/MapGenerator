@@ -97,7 +97,7 @@ namespace MapGenerator
         {
             Array values = Enum.GetValues(typeof(TerrainTileType));
 
-            var generator = new HeightMapGenerator();
+            var generator = new CellAutoGeneration2();
 
 
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
@@ -121,7 +121,7 @@ namespace MapGenerator
                 {
                     terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(TerrainTileType.water));
                 }
-                else if (elem.Value < hillLevel)
+                else if (elem.Value > hillLevel)
                 {
                     terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(TerrainTileType.hill));
                 }

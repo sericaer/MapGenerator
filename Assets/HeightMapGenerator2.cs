@@ -45,19 +45,38 @@ namespace MapGenerator
             return stableCell;
         }
 
-        private void Strike(int percent)
+        private void Strike(double percent)
         {
             var selectList = new List<(int, int)>();
             var needCount = size * size * percent / 100;
             for(int i=0; i< needCount; i++)
             {
-                selectList.Add((UnityEngine.Random.Range(0, size * size), UnityEngine.Random.Range(0, size * size)));
+                selectList.Add((UnityEngine.Random.Range(0, size ), UnityEngine.Random.Range(0, size )));
             }
 
             foreach(var select in selectList)
             {
-                stableCell[select]--;
+                var value = stableCell[select]-10;
+
+                stableCell[select] = value < 0 ? 0 : value;
             }
+
+            foreach(var b  in selectList.SelectMany(x => GetNearbys(x)))
+            {
+                int value = 0;
+                foreach (var c in GetNearbys(b))
+                {
+                    value += stableCell[c];
+                }
+
+                value = value / 9;
+
+                stableCell[b] = value < 0 ? 0 : value;
+
+
+            }
+
+            //beng.UnionWith(selectList.SelectMany(x => GetNearbys(x)));
         }
 
         private int CalcNextValue(IEnumerable<int> values)
@@ -122,5 +141,6 @@ namespace MapGenerator
         private int size;
         private Dictionary<(int x, int y), int> activeCell = new Dictionary<(int x, int y), int>();
         private Dictionary<(int x, int y), int> stableCell = new Dictionary<(int x, int y), int>();
+        private HashSet<(int x, int y)> beng = new HashSet<(int x, int y)>();
     }
 }
