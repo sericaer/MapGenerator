@@ -45,13 +45,13 @@ namespace MapGenerator
                 var cellNearbys = GetCellNearbys(nearby);
 
                 var sum = cellNearbys.Values.Sum();
-                if (sum != 0 && UnityEngine.Random.Range(0, 100) < 60)
+                if (sum != 0 && UnityEngine.Random.Range(0, 100) < 50)
                 {
                     activeCell[nearby] = 1;
                 }
                 else
                 {
-                    if (random % 100 < 10)
+                    if (random % 100 < 5)
                     {
                         activeCell[nearby] = 1;
                     }
@@ -65,13 +65,40 @@ namespace MapGenerator
 
             var rslt = stableCell.ToDictionary(key=>key.Key, value=>0);
             var keys = stableCell.Keys.Where(x => stableCell[x] != 0);
-            foreach(var key in keys)
+
+            foreach (var key in keys)
             {
+                int distance = 1;
+                while (true)
+                {
+                    if (GetNearbys(key, distance).Any(x => stableCell[x] == 0))
+                    {
+                        break;
+                    }
+                    distance++;
+                }
+
                 var nearbys = GetNearbys(key);
 
                 var count = nearbys.Where(x => stableCell[x] != 0).Count();
-                rslt[key] = Enumerable.Range(0, count*3).Sum(_ => UnityEngine.Random.Range(count/2, count));
+                rslt[key] = Enumerable.Range(0, count * distance).Sum(_ => UnityEngine.Random.Range(count * distance / 2, count * distance));
             }
+
+            //foreach(var key in keys)
+            //{
+            //    int distance = 1;
+            //    while(true)
+            //    {
+            //        var nearbys = GetNearbys(key, distance);
+            //        if(nearbys.Any(x => stableCell[x] == 0))
+            //        {
+            //            break;
+            //        }
+            //        distance++;
+            //    }
+
+            //    rslt[key] = UnityEngine.Random.Range((int)Math.Pow((distance + 1), 3), (int)Math.Pow((distance + 1), 3)*2);
+            //}
 
             return rslt;
         }
@@ -87,6 +114,13 @@ namespace MapGenerator
                                           (key.x + 1, key.y+1), (key.x + 1, key.y-1), (key.x - 1, key.y+1), (key.x - 1, key.y-1), };
 
             return rslt.Where(e => e.x < size && e.x >= 0 && e.y < size && e.y >= 0);
+        }
+
+        private IEnumerable<(int x, int y)> GetNearbys((int x, int y) key, int distance)
+        {
+            return Enumerable.Range(-1 * distance, distance*2+1)
+                .SelectMany(x => Enumerable.Range(-1 * distance, distance*2+1).Select(y => (key.x + x, key.y + y)))
+                .Where(e => e.Item1 < size && e.Item1 >= 0 && e.Item2 < size && e.Item2 >= 0);
         }
 
         private Dictionary<(int x, int y), int> GetCellNearbys((int x, int y) key)
