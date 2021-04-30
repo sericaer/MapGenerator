@@ -1,0 +1,245 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "Facade/1.0.0": {
+        "dependencies": {
+          "Map": "1.0.0",
+          "Mod": "1.0.0",
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "Facade.dll": {}
+        }
+      },
+      "Fody/6.4.0": {},
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "Microsoft.NETCore.Targets/1.1.0": {},
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "PropertyChanged.Fody/3.3.3": {
+        "dependencies": {
+          "Fody": "6.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PropertyChanged.dll": {
+            "assemblyVersion": "3.3.3.0",
+            "fileVersion": "3.3.3.0"
+          }
+        }
+      },
+      "ReactiveMarbles.PropertyChanged/1.4.1": {
+        "dependencies": {
+          "System.Reactive": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ReactiveMarbles.PropertyChanged.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.1.47799"
+          }
+        }
+      },
+      "System.Reactive/5.0.0": {
+        "dependencies": {
+          "System.Runtime.InteropServices.WindowsRuntime": "4.3.0",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Reactive.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.1"
+          }
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.4.1",
+            "fileVersion": "4.6.28619.1"
+          }
+        }
+      },
+      "System.Runtime.InteropServices.WindowsRuntime/4.3.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Runtime.InteropServices.WindowsRuntime.dll": {
+            "assemblyVersion": "4.0.2.0",
+            "fileVersion": "4.6.24705.1"
+          }
+        }
+      },
+      "System.Threading.Tasks.Extensions/4.5.4": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll": {
+            "assemblyVersion": "4.2.0.1",
+            "fileVersion": "4.6.28619.1"
+          }
+        }
+      },
+      "HexMath/1.0.0": {
+        "runtime": {
+          "HexMath.dll": {}
+        }
+      },
+      "Interfaces/1.0.0": {
+        "runtime": {
+          "Interfaces.dll": {}
+        }
+      },
+      "Log/1.0.0": {
+        "runtime": {
+          "Log.dll": {}
+        }
+      },
+      "Map/1.0.0": {
+        "dependencies": {
+          "HexMath": "1.0.0",
+          "Interfaces": "1.0.0",
+          "Log": "1.0.0",
+          "PropertyChanged.Fody": "3.3.3",
+          "ReactiveMarbles.PropertyChanged": "1.4.1"
+        },
+        "runtime": {
+          "Map.dll": {}
+        }
+      },
+      "Mod/1.0.0": {
+        "dependencies": {
+          "Interfaces": "1.0.0",
+          "Log": "1.0.0"
+        },
+        "runtime": {
+          "Mod.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Facade/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Fody/6.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5cgK5htSklGmBTR8Bj/xvTGrxTINj18QY9S1rAu1G5QX9NAzK9lAB0TugUPdeSGmktW82R3gMj2NNnTgicMwsg==",
+      "path": "fody/6.4.0",
+      "hashPath": "fody.6.4.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Targets/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
+      "path": "microsoft.netcore.targets/1.1.0",
+      "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "PropertyChanged.Fody/3.3.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2dHoq3+Y37J2g06RRyV57zMY9uVOq9JanPienXxineL1pIACCgxn8dL/f6C9I0L1hPvhoipxtP2u9jcSlVsn6Q==",
+      "path": "propertychanged.fody/3.3.3",
+      "hashPath": "propertychanged.fody.3.3.3.nupkg.sha512"
+    },
+    "ReactiveMarbles.PropertyChanged/1.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XlGdCGM62IVNy6N0KAof2mYofXndZAeGLMSOyq+Y01h+vAe+y/V5KGGcSdP4kIXynueZmKGp9tIRRwQ2gXD5fQ==",
+      "path": "reactivemarbles.propertychanged/1.4.1",
+      "hashPath": "reactivemarbles.propertychanged.1.4.1.nupkg.sha512"
+    },
+    "System.Reactive/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
+      "path": "system.reactive/5.0.0",
+      "hashPath": "system.reactive.5.0.0.nupkg.sha512"
+    },
+    "System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
+      "path": "system.runtime/4.3.0",
+      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3TIsJhD1EiiT0w2CcDMN/iSSwnNnsrnbzeVHSKkaEgV85txMprmuO+Yq2AdSbeVGcg28pdNDTPK87tJhX7VFHw==",
+      "path": "system.runtime.compilerservices.unsafe/4.5.3",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.5.3.nupkg.sha512"
+    },
+    "System.Runtime.InteropServices.WindowsRuntime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J4GUi3xZQLUBasNwZnjrffN8i5wpHrBtZoLG+OhRyGo/+YunMRWWtwoMDlUAIdmX0uRfpHIBDSV6zyr3yf00TA==",
+      "path": "system.runtime.interopservices.windowsruntime/4.3.0",
+      "hashPath": "system.runtime.interopservices.windowsruntime.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Tasks.Extensions/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
+      "path": "system.threading.tasks.extensions/4.5.4",
+      "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    },
+    "HexMath/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Interfaces/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Log/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Map/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Mod/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
