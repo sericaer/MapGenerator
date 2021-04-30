@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HexMath;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -11,11 +12,12 @@ namespace MapGenerator
     {
         private int size;
 
-        private Dictionary<(int x, int y), int> activeCell = new Dictionary<(int x, int y), int>();
-        private Dictionary<(int x, int y), int> stableCell = new Dictionary<(int x, int y), int>();
+        private Dictionary<AxialCoord, int> activeCell = new Dictionary<AxialCoord, int>();
+        private Dictionary<AxialCoord, int> stableCell = new Dictionary<AxialCoord, int>();
         private LinkedList<int> randoms;
+        private Dictionary<AxialCoord, int> rslt;
 
-        internal Dictionary<(int, int), int> Gen(int size, string seed)
+        internal Dictionary<AxialCoord, int> Gen(int size, string seed)
         {
             this.size = size;
 
@@ -25,11 +27,11 @@ namespace MapGenerator
 
             UnityEngine.Random.InitState(BitConverter.ToInt32(hashBytes, 0));
 
-            randoms = new LinkedList<int>(Enumerable.Range(0, 1000).Select(x=>UnityEngine.Random.Range(0, size * size)));
+            randoms = new LinkedList<int>(Enumerable.Range(0, 1000).Select(x=>UnityEngine.Random.Range(-size, size * size)));
 
-            activeCell[(0, 0)] = 0;
+            activeCell[new AxialCoord(0, 0)] = 0;
 
-            var rslt = Enumerable.Range(0,size).SelectMany(x=> Enumerable.Range(0, size).Select(y=>(x,y))).ToDictionary(k=>k, v=>0);
+            rslt = Enumerable.Range(-size/2,size/2).SelectMany(x=> Enumerable.Range(-size/2, size/2).Select(y=> new OffsetCoord(x,y).ToAxialCoord())).ToDictionary(k=>k, v=>0);
 
             for(int i=0; i<10; i++)
             {
@@ -58,10 +60,10 @@ namespace MapGenerator
             randoms.RemoveFirst();
             randoms.AddLast(rslt);
 
-            return rslt;
+            return Math.Abs(rslt);
         }
 
-        private Dictionary<(int, int), int> GenMethod()
+        private Dictionary<AxialCoord, int> GenMethod()
         {
             while (activeCell.Count() != 0)
             {
@@ -101,56 +103,24 @@ namespace MapGenerator
             return stableCell;
         }
 
-        private IEnumerable<(int x, int y)> GetEmptyNearbys((int x, int y) key)
+        private IEnumerable<AxialCoord> GetEmptyNearbys(AxialCoord key)
         {
             return GetNearbys(key).Where(e => !activeCell.ContainsKey(e) && !stableCell.ContainsKey(e)).ToArray();
         }
 
-        private IEnumerable<(int x, int y)> GetNearbys((int x, int y) key)
+        private IEnumerable<AxialCoord> GetNearbys(AxialCoord key)
         {
-            var rslt = new (int x, int y)[] { (key.x + 1, key.y), (key.x - 1, key.y), (key.x, key.y + 1), (key.x, key.y - 1),
-                                          (key.x + 1, key.y+1), (key.x + 1, key.y-1), (key.x - 1, key.y+1), (key.x - 1, key.y-1), };
-
-            return rslt.Where(e => e.x < size && e.x >= 0 && e.y < size && e.y >= 0);
+            return key.GetNeighbors().Where(x => rslt.ContainsKey(x));
         }
 
-        private IEnumerable<(int x, int y)> GetNearbys((int x, int y) key, int distance)
-        {
-            return Enumerable.Range(-1 * distance, distance*2+1)
-                .SelectMany(x => Enumerable.Range(-1 * distance, distance*2+1).Select(y => (key.x + x, key.y + y)))
-                .Where(e => e.Item1 < size && e.Item1 >= 0 && e.Item2 < size && e.Item2 >= 0);
-        }
 
-        private Dictionary<(int x, int y), int> GetCellNearbys((int x, int y) key)
+        private Dictionary<AxialCoord, int> GetCellNearbys(AxialCoord key)
         {
             var nearbys = GetNearbys(key);
 
-            return nearbys.Where(x=> stableCell.ContainsKey(x) || activeCell.ContainsKey(x)).ToDictionary(key => key, value => stableCell.ContainsKey(value)? stableCell[value] : activeCell[value]);
+            return nearbys.Where(x=> stableCell.ContainsKey(x) || activeCell.ContainsKey(x))
+                          .ToDictionary(key => key, value => stableCell.ContainsKey(value)? stableCell[value] : activeCell[value]);
         }
-
-        private int[] GetRandomArray(int min, int max, int count)
-        {
-
-            if(max -min < count)
-            {
-                throw new Exception();
-            }
-
-            List<int> rslt = new List<int>();
-            while(rslt.Count() < count)
-            {
-                int value = UnityEngine.Random.Range(min, max);
-                if(rslt.Contains(value))
-                {
-                    continue;
-                }
-
-                rslt.Add(value);
-            }
-
-            return rslt.ToArray();
-        }
-
         
     }
 }

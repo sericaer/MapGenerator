@@ -90,7 +90,7 @@ public class HexMapControl : MonoBehaviour
     private int _waterLevel;
     private int _size;
     private string _seed;
-    private Dictionary<(int x, int y), int> dict;
+    private Dictionary<AxialCoord, int> dict;
     private List<(int x, int y, int value)> list;
     public void GenerateMap()
     {
@@ -98,87 +98,101 @@ public class HexMapControl : MonoBehaviour
 
 
 
-        var rslt = Enumerable.Range(0, size).SelectMany(x => Enumerable.Range(0, size).Select(y => (x, y))).ToDictionary(k => k, v => 0);
-        foreach(var elem in rslt.Keys)
-        {
-            terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.plain));
-        }
+        //var rslt = Enumerable.Range(0, size).SelectMany(x => Enumerable.Range(0, size).Select(y => (x, y))).ToDictionary(k => k, v => 0);
+        //foreach(var elem in rslt.Keys)
+        //{
+        //    terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.plain));
+        //}
 
-        foreach (var elem in GetNearbys((6, 5)))
-        {
-            terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.Mountain));
-        }
+        //foreach (var elem in GetNearbys((6, 5)))
+        //{
+        //    terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.Mountain));
+        //}
 
-        //Array values = Enum.GetValues(typeof(TerrainTileType));
+        Array values = Enum.GetValues(typeof(TerrainTileType));
 
-        //var generator = new CellAutoGeneration4();
+        var generator = new CellAutoGeneration4();
 
 
-        //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-        //stopwatch.Start();
-        //dict = generator.Gen(size, seed);
-        //stopwatch.Stop();
-        //Debug.Log("Time taken: " + (stopwatch.Elapsed));
-        //stopwatch.Reset();
+        System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
+        dict = generator.Gen(size, seed);
+        stopwatch.Stop();
+        Debug.Log("Time taken: " + (stopwatch.Elapsed));
+        stopwatch.Reset();
 
-        //list = dict.Keys.Select(e => (e.x, e.y, dict[e])).ToList();
-        //list.OrderBy(x => x.value);
-
-        //RenderTileMap();
+        RenderTileMap();
     }
 
     private void RenderTileMap()
     {
         Array values = Enum.GetValues(typeof(TerrainTileType));
 
-        HashSet<(int x, int y)> list = new HashSet<(int x, int y)>();
-        List<(int x, int y)> listHill = new List<(int x, int y)>();
+        HashSet<AxialCoord> list = new HashSet<AxialCoord>();
+        List<AxialCoord> listHill = new List<AxialCoord>();
         foreach (var elem in dict)
         {
+            var offsetcoord = elem.Key.ToOffsetCoord();
+            var vector3 = new Vector3Int(offsetcoord.row, offsetcoord.col, 0);
             if (elem.Value < waterLevel)
             {
-                terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(TerrainTileType.water));
+                
+                terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.water));
                 list.Add(elem.Key);
             }
             else if (elem.Value > hillLevel)
             {
-                terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(TerrainTileType.hill));
-                listHill.Add((elem.Key.x, elem.Key.y));
+                terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.hill));
+                listHill.Add(elem.Key);
             }
             else
             {
-                terrainMap.SetTile(new Vector3Int(elem.Key.x - size / 2, elem.Key.y - size / 2, 0), tileSets.GetTile(TerrainTileType.plain));
+                terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.plain));
             }
         }
 
         foreach (var wkey in list)
         {
-            var nearbys = GetNearbys(wkey).Where(x => list.Contains(x));
+            var nearbys = wkey.GetNeighbors().Where(x => list.Contains(x));
             if (nearbys.Count() < 3)
             {
-                terrainMap.SetTile(new Vector3Int(wkey.x - size / 2, wkey.y - size / 2, 0), tileSets.GetTile(TerrainTileType.plain));
+                var offsetcoord = wkey.ToOffsetCoord();
+                var vector3 = new Vector3Int(offsetcoord.row, offsetcoord.col, 0);
+
+                terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.plain));
                 foreach (var near in nearbys)
                 {
-                    terrainMap.SetTile(new Vector3Int(near.x - size / 2, near.y - size / 2, 0), tileSets.GetTile(TerrainTileType.plain));
+                    offsetcoord = near.ToOffsetCoord();
+                    vector3 = new Vector3Int(offsetcoord.row, offsetcoord.col, 0);
+
+                    terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.plain));
                 }
             }
         }
 
-        //int mountCount = 0;
-        //foreach (var hill in listHill.OrderByDescending(x => dict[x]))
-        //{
-        //    if (GetNearbys(hill).Count(x => listHill.Contains(x)) >= 6)
-        //    {
-        //        terrainMap.SetTile(new Vector3Int(hill.x - size / 2, hill.y - size / 2, 0), tileSets.GetTile(TerrainTileType.Mountain));
-        //        mountCount++;
-        //    }
-        //}
+        int mountCount = 0;
+        foreach (var hill in listHill.OrderByDescending(x => dict[x]))
+        {
+            if (hill.GetNeighbors().Count(x => listHill.Contains(x)) >= 6)
+            {
+                var offsetcoord = hill.ToOffsetCoord();
+                var vector3 = new Vector3Int(offsetcoord.row, offsetcoord.col, 0);
+
+                terrainMap.SetTile(vector3, tileSets.GetTile(TerrainTileType.Mountain));
+                mountCount++;
+
+                if(mountCount > listHill.Count() * 0.05)
+                {
+                    break;
+                }
+            }
+        }
 
         ;
-        foreach (var elem in GetNearbys((1, 2)))
-        {
-            terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.Mountain));
-        }
+        //foreach (var elem in GetNearbys((1, 2)))
+        //{
+        //    terrainMap.SetTile(new Vector3Int(elem.x, elem.y, 0), tileSets.GetTile(TerrainTileType.Mountain));
+        //}
 
         list.Clear();
         listHill.Clear();
