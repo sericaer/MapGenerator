@@ -10,16 +10,20 @@ namespace MapGenerator
 {
     class CellAutoGeneration4
     {
-        private int size;
+        private int size => length * width;
+
+        private int length;
+        private int width;
 
         private Dictionary<AxialCoord, int> activeCell = new Dictionary<AxialCoord, int>();
         private Dictionary<AxialCoord, int> stableCell = new Dictionary<AxialCoord, int>();
-        private LinkedList<int> randoms;
+        private LinkedList<int> randoms { get; set; }
         private Dictionary<AxialCoord, int> rslt;
 
-        internal Dictionary<AxialCoord, int> Gen(int size, string seed)
+        internal Dictionary<AxialCoord, int> Gen(int length, int width, string seed)
         {
-            this.size = size;
+            this.length = length;
+            this.width = width;
 
             var md5 = MD5.Create();
             var inputBytes = Encoding.ASCII.GetBytes(seed);
@@ -27,11 +31,11 @@ namespace MapGenerator
 
             UnityEngine.Random.InitState(BitConverter.ToInt32(hashBytes, 0));
 
-            randoms = new LinkedList<int>(Enumerable.Range(0, 1000).Select(x=>UnityEngine.Random.Range(-size, size * size)));
+            randoms = new LinkedList<int>(Enumerable.Range(0, 1000).Select(x=>UnityEngine.Random.Range(0, size)));
 
             activeCell[new AxialCoord(0, 0)] = 0;
 
-            rslt = Enumerable.Range(-size/2,size/2).SelectMany(x=> Enumerable.Range(-size/2, size/2).Select(y=> new OffsetCoord(x,y).ToAxialCoord())).ToDictionary(k=>k, v=>0);
+            rslt = Enumerable.Range(-length / 2, length / 2).SelectMany(x=> Enumerable.Range(-width / 2, width / 2).Select(y=> new OffsetCoord(x,y).ToAxialCoord())).ToDictionary(k=>k, v=>0);
 
             for(int i=0; i<10; i++)
             {

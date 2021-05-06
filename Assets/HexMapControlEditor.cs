@@ -22,7 +22,8 @@ namespace MapGenerator
             script.tileSets = EditorGUILayout.ObjectField(script.tileSets, typeof(HexTileSets), true) as HexTileSets;
             script.terrainMap = EditorGUILayout.ObjectField(script.terrainMap, typeof(Tilemap), true) as Tilemap;
 
-            script.size = EditorGUILayout.IntField("size", script.size);
+            script.length = EditorGUILayout.IntField("length", script.length);
+            script.width = EditorGUILayout.IntField("width", script.width);
             script.seed = EditorGUILayout.TextField("seed", script.seed);
             if(GUILayout.Button("generate"))
             {

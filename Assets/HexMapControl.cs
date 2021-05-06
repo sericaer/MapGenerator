@@ -13,20 +13,37 @@ public class HexMapControl : MonoBehaviour
 
     public HexTileSets tileSets;
 
-    public int size
+    public int width
     {
         get
         {
-            return _size;
+            return _width;
 
         }
         set
         {
-            if (_size == value)
+            if (_width == value)
             {
                 return;
             }
-            _size = value;
+            _width = value;
+        }
+    }
+
+    public int length
+    {
+        get
+        {
+            return _length;
+
+        }
+        set
+        {
+            if (_length == value)
+            {
+                return;
+            }
+            _length = value;
         }
     }
 
@@ -89,6 +106,8 @@ public class HexMapControl : MonoBehaviour
     private int _hillLevel;
     private int _waterLevel;
     private int _size;
+    private int _length;
+    private int _width;
     private string _seed;
     private Dictionary<AxialCoord, int> dict;
     private List<(int x, int y, int value)> list;
@@ -116,7 +135,7 @@ public class HexMapControl : MonoBehaviour
 
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
-        dict = generator.Gen(size, seed);
+        dict = generator.Gen(length, width, seed);
         stopwatch.Stop();
         Debug.Log("Time taken: " + (stopwatch.Elapsed));
         stopwatch.Reset();
